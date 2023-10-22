@@ -27,9 +27,15 @@ public class ConnectDB {
 
            Statement result = con.createStatement();
 
+<<<<<<< HEAD
            ResultSet st = result.executeQuery("SELECT nome, cargo, salario_hora FROM FUNCIONARIO");
            while (st.next()){
            System.out.println("nome: " + st.getString("nome") + "\ncargo: " + st.getString("cargo") + "\nsalario:" + st.getInt("salario_hora")) ;}
+=======
+           ResultSet st = result.executeQuery("SELECT nome, cargo FROM FUNCIONARIO");
+           while (st.next()){
+           System.out.println("nome: " + st.getString("nome") + "\ncargo: " + st.getString("cargo")) ;}
+>>>>>>> origin/main
        }catch (Exception e){
            System.out.println(e.getMessage());
        }
