@@ -37,6 +37,7 @@ public class Demo extends JFrame{
         ConnectDB db = new ConnectDB();
 
         db.consulta();
+        System.out.println("Test");
 
     }
 }
