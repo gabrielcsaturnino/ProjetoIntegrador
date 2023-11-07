@@ -1,5 +1,3 @@
-/* Lógico_1: */
-
 CREATE TABLE FUNCIONARIO (
                              CARGO VARCHAR,
                              CPF VARCHAR PRIMARY KEY,
@@ -8,7 +6,7 @@ CREATE TABLE FUNCIONARIO (
                              DATA_ADMISSAO DATE,
                              RG VARCHAR,
                              DEPARTAMENTO VARCHAR,
-                             SALARIO_HORA VARCHAR
+                             SALARIO_HORA INTEGER
 );
 
 CREATE TABLE FOLHA_PONTO (

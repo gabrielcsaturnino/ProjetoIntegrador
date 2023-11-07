@@ -10,8 +10,8 @@ public class ConnectDB {
    public ConnectDB(){
 
        try {
-            con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/DBPROJETO",
-                   "postgres", "1234");
+            con = DriverManager.getConnection("jdbc:postgresql://projeto-integrador.cplzuphuait3.us-east-2.rds.amazonaws.com:5432/PJ-INTEGRADOR",
+                   "postgres", "Kjumhlozfv23");
            if (con != null){
                System.out.println("Banco conectado");
 
@@ -37,7 +37,8 @@ public class ConnectDB {
            System.out.println(e.getMessage());
        }
        finally {
-           con.close();
+           if(con!=null){
+               con.close();}
        }
 
 
@@ -51,14 +52,15 @@ public static void insert(String name) throws SQLException{
        try {
 
            PreparedStatement pps = con.prepareStatement("INSERT INTO FUNCIONARIO (cargo, cpf, nome, contrato, data_admissao, rg, departamento, salario_hora) " +
-                   "VALUES ('Programador', '5555-5555', ?, '4512', '17-02-22', '444', '123', 15)");
+                   "VALUES ('Programador', '4444-5555', ?, '4512', TO_DATE('17/02/2022', 'DD/MM/YYYY'), '444', '123', 12)");
            pps.setString(1, name);
            pps.executeUpdate();
        }catch (Exception e){
            System.out.println(e.getMessage());
        }
        finally {
-           con.close();
+           if(con!=null){
+               con.close();}
        }
 
 
