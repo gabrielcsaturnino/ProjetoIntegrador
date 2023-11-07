@@ -6,7 +6,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.sql.Statement;
+
+import static org.conrel.dal.ConnectDB.consulta;
+import static org.conrel.dal.ConnectDB.insert;
 
 public class Demo extends JFrame{
 
@@ -19,7 +21,7 @@ public class Demo extends JFrame{
         setContentPane(mainPanel);
         setTitle("Gui teste");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(200, 300);
+        setSize(500, 500);
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -27,17 +29,37 @@ public class Demo extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(Demo.this, textName.getText() + " Hello");
+                try{
+                    insert(textName.getText());
+                    consulta();
+
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
             }
-        });
+
+
+
+
+});
+
+
+
+
+
     }
+
 
     public static void main(String[] args) throws SQLException {
         //new Demo();
-
+        new Demo();
         ConnectDB db = new ConnectDB();
-
-        db.consulta();
+        consulta();
         System.out.println("Testt");
+
+
+
 
     }
 }
