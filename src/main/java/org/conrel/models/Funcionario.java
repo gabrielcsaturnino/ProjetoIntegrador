@@ -13,6 +13,7 @@ import java.util.Date;
 public class Funcionario {
     private String nome;
     private String cpf;
+    private String cargo;
     private String rg;
     private String departamento;
     private Date data_admissao;

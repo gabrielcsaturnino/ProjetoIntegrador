@@ -1,8 +1,5 @@
 package org.conrel.views;
 
-import org.conrel.models.Funcionario;
-import org.conrel.test;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,11 +29,6 @@ public class TelaPrincipal  extends  JFrame{
             }
         });
 
-        DefaultListModel<test> t = new DefaultListModel<>();
-        t.addElement(new test("Gabriel"));
-        t.addElement(new test("Pedro"));
-
-        list1.setModel(t);
 
 
 
