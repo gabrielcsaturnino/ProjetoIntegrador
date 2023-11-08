@@ -1,9 +1,6 @@
-package org.conrel.dal;
+package org.conrel.models.dal;
 
 import java.sql.*;
-
-import static javax.swing.DropMode.INSERT;
-import static org.postgresql.jdbc.SslMode.VALUES;
 
 public class ConnectDB {
     static Connection con;

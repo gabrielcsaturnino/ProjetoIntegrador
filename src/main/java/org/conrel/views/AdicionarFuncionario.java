@@ -1,12 +1,12 @@
-package org.conrel.telas;
+package org.conrel.views;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-import static org.conrel.dal.ConnectDB.consulta;
-import static org.conrel.dal.ConnectDB.insert;
+import static org.conrel.models.dal.ConnectDB.consulta;
+import static org.conrel.models.dal.ConnectDB.insert;
 
 public class AdicionarFuncionario extends JFrame{
 
