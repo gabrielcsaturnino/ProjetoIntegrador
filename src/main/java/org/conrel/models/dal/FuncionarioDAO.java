@@ -5,6 +5,8 @@ import org.conrel.models.dal.ConnectDB;
 import org.postgresql.util.PSQLException;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.conrel.models.dal.ConnectDB.getConnection;
 
@@ -70,8 +72,8 @@ public class FuncionarioDAO {
     }
 
 
-    public static void consulta() throws SQLException {
-
+    public static List<Funcionario> consulta() throws SQLException {
+        List<Funcionario> funcionarios = new ArrayList<>();
         Connection con = null;
         if (getConnection() == null) {
             new ConnectDB();
@@ -85,17 +87,27 @@ public class FuncionarioDAO {
             }
 
 
-            PreparedStatement pps = con.prepareStatement("SELECT nome, cargo, salario_hora FROM FUNCIONARIO");
+            PreparedStatement pps = con.prepareStatement("SELECT * FROM FUNCIONARIO");
             ResultSet st = pps.executeQuery();
             while (st.next()) {
-                System.out.println("nome: " + st.getString("nome") + "\ncargo: " + st.getString("cargo") + "\nsalario:" + st.getInt("salario_hora"));
+                Funcionario funcionario = new Funcionario(
+                        st.getString("nome"),
+                        st.getString("cpf"),
+                        st.getString("cargo"),
+                        st.getString("rg"),
+                        st.getString("departamento"),
+                        st.getDate("data_admissao"),
+                        st.getString("contrato"),
+                        st.getInt("salario_hora")
+                );
+              funcionarios.add(funcionario);
             }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-
+       return funcionarios;
     }
 
 

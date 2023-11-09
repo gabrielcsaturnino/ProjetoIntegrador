@@ -1,18 +1,25 @@
 package org.conrel.views;
 
+import org.conrel.models.Funcionario;
+import org.conrel.models.FuncionarioTable;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.List;
+
+import static org.conrel.models.dal.FuncionarioDAO.consulta;
 
 public class TelaPrincipal  extends  JFrame{
 
 
     private JButton addButton;
     private JPanel mainPanel;
-    private JList list1;
+    private JTable jtable1;
+    private FuncionarioTable tableList;
 
-    public TelaPrincipal(){
+    public TelaPrincipal() throws SQLException {
 
         setContentPane(mainPanel);
         setTitle("CONREL");
@@ -21,6 +28,13 @@ public class TelaPrincipal  extends  JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
 
+
+        List<Funcionario> funcionarios = consulta();
+        tableList = new FuncionarioTable(funcionarios);
+
+        jtable1.setModel(tableList);
+
+
             addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -28,6 +42,7 @@ public class TelaPrincipal  extends  JFrame{
                 setVisible(false);
             }
         });
+
 
 
 
