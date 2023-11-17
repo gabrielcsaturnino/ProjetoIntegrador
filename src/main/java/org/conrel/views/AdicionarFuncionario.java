@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import static org.conrel.models.FactoryFuncionario.FactFunc;
+import static org.conrel.models.dal.FactoryFuncionario.FactFunc;
 import static org.conrel.models.dal.FuncionarioDAO.ValidarCpf;
 import static org.conrel.models.dal.FuncionarioDAO.insert;
 
