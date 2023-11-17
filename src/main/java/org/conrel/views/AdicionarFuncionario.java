@@ -126,7 +126,11 @@ public class AdicionarFuncionario extends JFrame{
         voltarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaPrincipal();
+                try {
+                    new TelaPrincipal();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 setVisible(false);
             }
         });
