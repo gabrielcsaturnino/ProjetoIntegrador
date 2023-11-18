@@ -10,10 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class FuncionarioTable  extends AbstractTableModel {
+public class FuncionarioTable extends AbstractTableModel {
     private List<Funcionario> funcionarios;
-    String[] colunas = {"Nome", "CPF", "Cargo", "Departamento", "Salário", "Editar"};
-
+    String[] colunas = {"Nome", "CPF", "Cargo", "Departamento", "Salário", "Remover", "Beneficio", "Ponto"};
 
 
     public FuncionarioTable(List<Funcionario> funcionarios) {
@@ -45,7 +44,11 @@ public class FuncionarioTable  extends AbstractTableModel {
             case 4:
                 return funcionario.getSalario_hora();
             case 5:
-                return "Editar";
+                return "Remover";
+            case 6:
+                return "Beneficio";
+            case 7:
+                return "Ponto";
 
             default:
                 return null;
@@ -55,15 +58,20 @@ public class FuncionarioTable  extends AbstractTableModel {
     }
 
 
-
-
-
     public boolean isCellEditable(int row, int column) {
-        return column == 5;
+        return column == 6 || column == 5 || column == 7;
+
     }
+
 
     public String getColumnName(int column) {
         return colunas[column];
+    }
+
+
+    public void deleteRow(int index) {
+        funcionarios.remove(index);
+        fireTableRowsDeleted(index, index);
     }
 }
 

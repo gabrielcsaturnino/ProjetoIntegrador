@@ -100,14 +100,47 @@ public class FuncionarioDAO {
                         st.getString("contrato"),
                         st.getInt("salario_hora")
                 );
-              funcionarios.add(funcionario);
+                funcionarios.add(funcionario);
             }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-       return funcionarios;
+        return funcionarios;
+    }
+
+    public static void Deletar(int index) {
+        Connection con = null;
+        if (getConnection() == null) {
+            new ConnectDB();
+        }
+        try {
+            con = getConnection();
+            if (con == null) {
+                System.out.println("Erro ao obter a conexão.");
+            }
+
+            PreparedStatement pst = con.prepareStatement("SELECT CPF FROM FUNCIONARIO LIMIT 1 OFFSET ?");
+            pst.setInt(1, index);
+            ResultSet rs = pst.executeQuery();
+
+            String cpf = null;
+            if (rs.next()) {
+                cpf = rs.getString("CPF");
+            } else {
+                return;
+            }
+
+
+            PreparedStatement sst = con.prepareStatement("DELETE FROM FUNCIONARIO WHERE CPF = ?");
+            sst.setString(1, cpf);
+            sst.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 
