@@ -1,17 +1,18 @@
 package org.conrel.views;
 
+import org.conrel.models.FolhaPonto;
 import org.conrel.models.Funcionario;
 import org.conrel.models.dal.ButtonColumn;
 import org.conrel.models.dal.FuncionarioTable;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.List;
 
+import static org.conrel.controller.DeletarFuncionarioController.DelFuncionario;
 import static org.conrel.models.dal.FuncionarioDAO.consulta;
 
 public class TelaPrincipal  extends  JFrame{
@@ -19,9 +20,9 @@ public class TelaPrincipal  extends  JFrame{
 
     private JButton addButton;
 
+
     private JPanel mainPanel;
     private JTable jtable1;
-    private JButton addBeneficio;
     private FuncionarioTable tableList;
 
     public TelaPrincipal() throws SQLException {
@@ -44,14 +45,30 @@ public class TelaPrincipal  extends  JFrame{
         {
             public void actionPerformed(ActionEvent e)
             {
-                System.out.println("Botão pressionado na linha: " + e.getActionCommand());
-                int row = Integer.parseInt(e.getActionCommand());
+
+                DelFuncionario(Integer.parseInt(e.getActionCommand()));
+                tableList.deleteRow(Integer.parseInt(e.getActionCommand()));
         }
         };
+        Action beneficio = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-        ButtonColumn buttonColumn = new ButtonColumn(jtable1, delete, 5);
-        buttonColumn.setMnemonic(KeyEvent.VK_D);
 
+            }
+        };
+
+        Action folhaPonto = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new TelaFolhaDePonto(Integer.parseInt(e.getActionCommand()));
+            }
+        };
+
+        ButtonColumn buttonPonto = new ButtonColumn(jtable1, folhaPonto, 7);
+        ButtonColumn buttonBeneficio = new ButtonColumn(jtable1, beneficio, 6);
+        ButtonColumn buttonDelete = new ButtonColumn(jtable1, delete, 5);
+        buttonDelete.setMnemonic(KeyEvent.VK_D);
 
 
 
@@ -69,7 +86,6 @@ public class TelaPrincipal  extends  JFrame{
         });
 
 
-
     }
 
 
@@ -80,4 +96,5 @@ public class TelaPrincipal  extends  JFrame{
 
 
     }
+
 }

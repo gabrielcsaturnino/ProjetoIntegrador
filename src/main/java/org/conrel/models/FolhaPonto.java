@@ -13,8 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class FolhaPonto {
     private Date data;
-    private Time horaEntrada;
-    private Time horaSaida;
     private int totalHorasTrabalhadas;
     private int horaExtra;
     private int faltas;
