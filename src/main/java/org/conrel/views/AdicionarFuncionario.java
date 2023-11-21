@@ -58,28 +58,30 @@ public class AdicionarFuncionario extends JFrame {
                 String salario_horaText = txtsalario.getText().trim();
                 String rg = txtrg.getText();
 
-                int salario_hora = Integer.parseInt(salario_horaText);
+
+
+
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date dataAdmissaoUtil = null;
 
-                try {
 
+                try {
+                    int salario_hora = Integer.parseInt(salario_horaText);
                     dataAdmissaoUtil = dateFormat.parse(dataAdmissaoText);
-                } catch (ParseException ex) {
-                    throw new RuntimeException(ex);
-                }
-                java.sql.Date dataAdmissaoSql = new java.sql.Date(dataAdmissaoUtil.getTime());
-
-
-                try {
+                    java.sql.Date dataAdmissaoSql = new java.sql.Date(dataAdmissaoUtil.getTime());
                     AdicionarFuncionarioController.adicionarFuncionario(nome, cpf, cargo, rg, dept, dataAdmissaoSql, contrato, salario_hora);
+                    JOptionPane.showMessageDialog(AdicionarFuncionario.this, "Cadastrado com sucesso!");
                 } catch (ExceptionCustom ex) {
                     JOptionPane.showMessageDialog(AdicionarFuncionario.this, ex.getMessage());
                 } catch (PSQLException ex) {
                     JOptionPane.showMessageDialog(AdicionarFuncionario.this, "Erro ao inserior no banco!");
+                }catch (ParseException ex) {
+                    JOptionPane.showMessageDialog(AdicionarFuncionario.this, "Valor de data é invalido: dd/MM/yyyy");
+                }catch (NumberFormatException ex){
+                    JOptionPane.showMessageDialog(AdicionarFuncionario.this, "Digite um valor numérico.");
                 }
 
-                JOptionPane.showMessageDialog(AdicionarFuncionario.this, "Cadastrado com sucesso!");
+
             }
         });
 
