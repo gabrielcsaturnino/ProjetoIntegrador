@@ -3,38 +3,124 @@ package org.conrel.controller;
 import org.conrel.models.Funcionario;
 import org.conrel.models.dal.ExceptionCustom;
 import org.conrel.views.AdicionarFuncionario;
+import org.conrel.views.TelaPrincipal;
 import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
-import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
-import static org.conrel.models.dal.FactoryFuncionario.FactFunc;
-import static org.conrel.models.dal.FuncionarioDAO.ValidarCpf;
-import static org.conrel.models.dal.FuncionarioDAO.insert;
+public class AdicionarFuncionarioController implements ActionListener {
 
-public class AdicionarFuncionarioController {
-    public static void adicionarFuncionario(String nome, String cpf, String cargo, String rg, String departamento, Date dataAdmissao, String contrato, int salarioHora) throws ExceptionCustom, PSQLException {
-        if (ValidarCpf(cpf)) {
-            throw new ExceptionCustom("CPF já existe no banco de dados. Insira um CPF diferente.");
+    TelaPrincipal mv;
+    Funcionario funcionario;
+
+    public AdicionarFuncionarioController() {
+
+    }
+
+    public String getName() {
+        return adicionarFuncionario.getName();
+    }
+
+    public String getCpf() {
+        return adicionarFuncionario.getCpf();
+    }
+
+    public String getCargo() {
+        return adicionarFuncionario.getCargo();
+    }
+
+    public String getDepartamento() {
+        return adicionarFuncionario.getDepartamento();
+    }
+
+    public String getContrato() {
+        return adicionarFuncionario.getContrato();
+    }
+
+    public String getFone() {
+        return adicionarFuncionario.getFone();
+    }
+
+    public String getDataAdmissao() {
+        return adicionarFuncionario.getDataAdmissao();
+    }
+
+    public String getSalario() {
+        return adicionarFuncionario.getSalario();
+    }
+
+    public String getRg() {
+        return adicionarFuncionario.getRg();
+    }
+
+    public AdicionarFuncionarioController(AdicionarFuncionario adicionarFuncionario, Funcionario funcionario, TelaPrincipal mv){
+        this.funcionario = funcionario;
+        this.adicionarFuncionario = adicionarFuncionario;
+        this.mv = mv;
+    }
+
+    AdicionarFuncionario adicionarFuncionario;
+
+
+
+
+
+
+
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        System.out.println(command);
+        if(command.equals("Enviar")){
+            String nome = getName();
+            String cpf = getCpf();
+            String cargo = getCargo();
+            String dept = getDepartamento();
+            String contrato = getContrato();
+            String fone = getFone();
+            String dataAdmissaoText = getDataAdmissao();
+            String salario_horaText = getSalario();
+            String rg = getRg();
+
+
+
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date dataAdmissaoUtil = null;
+
+
+            try {
+                int salario_hora = Integer.parseInt(salario_horaText);
+                dataAdmissaoUtil = dateFormat.parse(dataAdmissaoText);
+                java.sql.Date dataAdmissaoSql = new java.sql.Date(dataAdmissaoUtil.getTime());
+                funcionario.adicionarFuncionario(nome, cpf, cargo, rg, dept, dataAdmissaoSql, contrato, salario_hora);
+                adicionarFuncionario.messageDialog("Cadastrado");
+            } catch (ExceptionCustom ex) {
+                adicionarFuncionario.messageDialog(ex.getMessage());
+            } catch (PSQLException ex) {
+                adicionarFuncionario.messageDialog("Erro ao inserir no banco");
+            }catch (ParseException ex) {
+                adicionarFuncionario.messageDialog("Valor de data é invalido: dd/MM/yyyy");
+            }catch (NumberFormatException ex){
+                adicionarFuncionario.messageDialog("Digite um valor numérico.");
+            }
+
+
+
         }
 
-        if (nome.isEmpty()) {
-            throw new ExceptionCustom("O campo nome está vazio.");
+        else if(command.equals("Voltar")){
+            adicionarFuncionario.setVisibleFalse();
+            mv.setVisibleTrue();
+
         }
 
-        if (salarioHora <= 0) {
-            throw new ExceptionCustom("O campo de salário é inválido.");
-        }
 
-        if (dataAdmissao == null) {
-            throw new ExceptionCustom("A data de admissão não foi especificada.");
-        }
-
-        insert(FactFunc(nome, cpf, cargo, rg, departamento, dataAdmissao, contrato, salarioHora));
     }
 }
-

@@ -1,6 +1,7 @@
 package org.conrel.views;
 
 import org.conrel.controller.AdicionarFuncionarioController;
+import org.conrel.controller.MainViewController;
 import org.conrel.models.dal.ExceptionCustom;
 import org.postgresql.util.PSQLException;
 
@@ -10,10 +11,6 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import static org.conrel.models.dal.FactoryFuncionario.FactFunc;
-import static org.conrel.models.dal.FuncionarioDAO.ValidarCpf;
-import static org.conrel.models.dal.FuncionarioDAO.insert;
 
 public class AdicionarFuncionario extends JFrame {
 
@@ -40,65 +37,62 @@ public class AdicionarFuncionario extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        java.util.Date dataUtil = new java.util.Date(); // Exemplo de java.util.Date
-        java.sql.Date dataSql = new java.sql.Date(dataUtil.getTime()); // Converte java.util.Date para java.sql.Date
 
 
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String nome = txtname.getText();
-                String cpf = txtcpf.getText();
-                String cargo = txtcargo.getText();
-                String dept = txtdepartamento.getText();
-                String contrato = txtcontrato.getText();
-                String fone = txtfone.getText();
-                String dataAdmissaoText = txtdata.getText();
-                String salario_horaText = txtsalario.getText().trim();
-                String rg = txtrg.getText();
-
-
-
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                java.util.Date dataAdmissaoUtil = null;
-
-
-                try {
-                    int salario_hora = Integer.parseInt(salario_horaText);
-                    dataAdmissaoUtil = dateFormat.parse(dataAdmissaoText);
-                    java.sql.Date dataAdmissaoSql = new java.sql.Date(dataAdmissaoUtil.getTime());
-                    AdicionarFuncionarioController.adicionarFuncionario(nome, cpf, cargo, rg, dept, dataAdmissaoSql, contrato, salario_hora);
-                    JOptionPane.showMessageDialog(AdicionarFuncionario.this, "Cadastrado com sucesso!");
-                } catch (ExceptionCustom ex) {
-                    JOptionPane.showMessageDialog(AdicionarFuncionario.this, ex.getMessage());
-                } catch (PSQLException ex) {
-                    JOptionPane.showMessageDialog(AdicionarFuncionario.this, "Erro ao inserior no banco!");
-                }catch (ParseException ex) {
-                    JOptionPane.showMessageDialog(AdicionarFuncionario.this, "Valor de data é invalido: dd/MM/yyyy");
-                }catch (NumberFormatException ex){
-                    JOptionPane.showMessageDialog(AdicionarFuncionario.this, "Digite um valor numérico.");
-                }
-
-
-            }
-        });
-
-
-        voltarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new TelaPrincipal();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                setVisible(false);
-            }
-        });
 
     }
+
+    public  String getName(){
+        return this.txtname.getText();
+    }
+
+    public String getCpf(){
+        return this.txtcpf.getText();
+    }
+    public String getCargo(){
+        return this.txtcargo.getText();
+    }
+    public String getDepartamento(){
+        return this.txtdepartamento.getText();
+    }
+
+    public String getContrato(){
+        return this.txtcontrato.getText();
+    }
+
+    public String getFone(){
+        return this.txtfone.getText();
+    }
+
+    public String getDataAdmissao(){
+        return this.txtdata.getText();
+    }
+
+    public String getSalario(){
+        return this.txtsalario.getText();
+    }
+
+    public String getRg(){
+        return this.txtrg.getText();
+    }
+
+    public void setListeners(AdicionarFuncionarioController adicionarFuncionarioController){
+        button.addActionListener(adicionarFuncionarioController);
+        voltarButton.addActionListener(adicionarFuncionarioController);
+    }
+
+    public void messageDialog(String msg){
+        JOptionPane.showMessageDialog(AdicionarFuncionario.this, msg);
+    }
+
+    public void setVisibleFalse(){
+        setVisible(false);
+    }
+
+    public  void setVisibleTrue(){
+        setVisible(true);
+    }
+
 
 
 }
