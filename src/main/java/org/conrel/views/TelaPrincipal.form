@@ -22,8 +22,8 @@
         </constraints>
         <properties>
           <horizontalAlignment value="2"/>
-          <label value="CADASTRO"/>
-          <text value="CADASTRO"/>
+          <label value="Cadastro"/>
+          <text value="Cadastro"/>
         </properties>
       </component>
       <component id="564ec" class="javax.swing.JTable" binding="jtable1">

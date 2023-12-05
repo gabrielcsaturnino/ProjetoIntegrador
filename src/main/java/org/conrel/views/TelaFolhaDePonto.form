@@ -60,7 +60,7 @@
           <text value="Horas extras:"/>
         </properties>
       </component>
-      <component id="14b7d" class="javax.swing.JButton" binding="addFolhaPonto">
+      <component id="14b7d" class="javax.swing.JButton" binding="buttonAddFolhaPonto">
         <constraints>
           <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>

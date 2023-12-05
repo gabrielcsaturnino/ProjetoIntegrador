@@ -1,18 +1,19 @@
 package org.conrel.views;
 
-import org.conrel.models.FolhaPonto;
+import org.conrel.controller.AdicionarFuncionarioController;
+import org.conrel.controller.DeletarFuncionarioController;
+import org.conrel.controller.MainViewController;
 import org.conrel.models.Funcionario;
 import org.conrel.models.dal.ButtonColumn;
 import org.conrel.models.dal.FuncionarioTable;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.util.List;
 
-import static org.conrel.controller.DeletarFuncionarioController.DelFuncionario;
+
 import static org.conrel.models.dal.FuncionarioDAO.consulta;
 
 public class TelaPrincipal  extends  JFrame{
@@ -20,7 +21,7 @@ public class TelaPrincipal  extends  JFrame{
 
     private JButton addButton;
 
-
+    private  ButtonColumn buttonDelete;
     private JPanel mainPanel;
     private JTable jtable1;
     private FuncionarioTable tableList;
@@ -41,34 +42,11 @@ public class TelaPrincipal  extends  JFrame{
         jtable1.setModel(tableList);
 
 
-        Action delete = new AbstractAction()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        AdicionarFuncionarioController ad = new AdicionarFuncionarioController();
 
-                DelFuncionario(Integer.parseInt(e.getActionCommand()));
-                tableList.deleteRow(Integer.parseInt(e.getActionCommand()));
-        }
-        };
-        Action beneficio = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-            }
-        };
-
-        Action folhaPonto = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new TelaFolhaDePonto(Integer.parseInt(e.getActionCommand()));
-            }
-        };
-
-        ButtonColumn buttonPonto = new ButtonColumn(jtable1, folhaPonto, 7);
-        ButtonColumn buttonBeneficio = new ButtonColumn(jtable1, beneficio, 6);
-        ButtonColumn buttonDelete = new ButtonColumn(jtable1, delete, 5);
-        buttonDelete.setMnemonic(KeyEvent.VK_D);
+        ButtonColumn buttonPonto = new ButtonColumn(jtable1,  7);
+        ButtonColumn buttonBeneficio = new ButtonColumn(jtable1, 6);
+        buttonDelete = new ButtonColumn(jtable1, 5);
 
 
 
@@ -77,24 +55,39 @@ public class TelaPrincipal  extends  JFrame{
 
 
 
-            addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AdicionarFuncionario();
-                setVisible(false);
-            }
-        });
+
+
+
 
 
     }
 
 
+    public void setListeners(MainViewController adicionarFuncionarioController, DeletarFuncionarioController deletarFuncionarioController){
+        addButton.addActionListener(adicionarFuncionarioController);
+        buttonDelete.addActionListener(deletarFuncionarioController);
+    }
+
 
 
     public static void main(String[] args) throws SQLException {
-        new TelaPrincipal();
+       TelaPrincipal mv =  new TelaPrincipal();
+       MainViewController telaPrincipalController = new MainViewController(mv);
+       DeletarFuncionarioController delete = new DeletarFuncionarioController(mv);
+       mv.setListeners(telaPrincipalController, delete);
 
+    }
 
+    public void setVisibleFalse(){
+        setVisible(false);
+    }
+
+    public  void setVisibleTrue(){
+        setVisible(true);
+    }
+
+    public int getIndex(){
+        return buttonDelete.getColumn();
     }
 
 }

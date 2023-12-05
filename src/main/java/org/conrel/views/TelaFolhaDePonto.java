@@ -17,7 +17,7 @@ public class TelaFolhaDePonto extends JFrame {
     private JTextField horasTotal;
     private JTextField totalFaltas;
     private JTextField horasExtras;
-    private JButton addFolhaPonto;
+    private JButton buttonAddFolhaPonto;
     private JTextField dataCadastro;
 
 
@@ -30,7 +30,7 @@ public class TelaFolhaDePonto extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        addFolhaPonto.addActionListener(new ActionListener() {
+        buttonAddFolhaPonto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String horasTotalText = horasTotal.getText();
@@ -47,30 +47,34 @@ public class TelaFolhaDePonto extends JFrame {
                     int totalFaltas = Integer.parseInt(totalFaltasText);
 
 
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
                     java.util.Date dataCadastroUtil = null;
+
+
+
+
 
                     try {
                         dataCadastroUtil = dateFormat.parse(dataCadastroText);
-                    } catch (ParseException ex) {
-                        throw new RuntimeException(ex);
-                    }
-
-                    java.sql.Date dataCadastroSql = new java.sql.Date(dataCadastroUtil.getTime());
-
-
-                    try {
+                        java.sql.Date dataCadastroSql = new java.sql.Date(dataCadastroUtil.getTime());
                         addFolhaPonto(horasTotal, horasExtras, totalFaltas, dataCadastroSql, index);
+                        JOptionPane.showMessageDialog(TelaFolhaDePonto.this, "Ponto cadastrado.");
+
                     } catch (ExceptionCustom ex) {
                         JOptionPane.showMessageDialog(TelaFolhaDePonto.this, ex.getMessage());
                     } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
+                        JOptionPane.showMessageDialog(TelaFolhaDePonto.this, "Erro ao inserior no banco!");
+                    }catch (ParseException ex) {
+                       JOptionPane.showMessageDialog(TelaFolhaDePonto.this, "Valor de data é invalido: MM-dd-yyyy");
                     }
 
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(TelaFolhaDePonto.this, "Digite um valor valido");
+                    JOptionPane.showMessageDialog(TelaFolhaDePonto.this, "Digite um valor numérico.");
                 }
             }
         });
+
+
     }
+
 }

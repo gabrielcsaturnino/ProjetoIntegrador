@@ -2,6 +2,7 @@ package org.conrel.models.dal;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
@@ -30,6 +31,7 @@ public class ButtonColumn extends AbstractCellEditor
     private JButton editButton;
     private Object editorValue;
     private boolean isButtonColumnEditor;
+    private int column;
 
     /**
      * Create the ButtonColumn to be used as a renderer and editor. The
@@ -37,12 +39,12 @@ public class ButtonColumn extends AbstractCellEditor
      * of the specified column.
      *
      * @param table  the table containing the button renderer/editor
-     * @param action the Action to be invoked when the button is invoked
+     *
      * @param column the column to which the button renderer/editor is added
      */
-    public ButtonColumn(JTable table, Action action, int column) {
+    public ButtonColumn(JTable table,  int column) {
         this.table = table;
-        this.action = action;
+
 
         renderButton = new JButton();
         editButton = new JButton();
@@ -55,6 +57,10 @@ public class ButtonColumn extends AbstractCellEditor
         columnModel.getColumn(column).setCellRenderer(this);
         columnModel.getColumn(column).setCellEditor(this);
         table.addMouseListener(this);
+        this.column = column;
+
+
+
     }
 
 
@@ -65,6 +71,10 @@ public class ButtonColumn extends AbstractCellEditor
      */
     public Border getFocusBorder() {
         return focusBorder;
+    }
+
+    public int getColumn(){
+        return this.column;
     }
 
     /**
@@ -163,24 +173,33 @@ public class ButtonColumn extends AbstractCellEditor
         return renderButton;
     }
 
+    private ArrayList<ActionListener> actionListeners = new ArrayList<>();
+
+    public void addActionListener(ActionListener listener) {
+        actionListeners.add(listener);
+    }
+
+    public void removeActionListener(ActionListener listener) {
+        actionListeners.remove(listener);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        int row = table.convertRowIndexToModel(table.getEditingRow());
+        fireEditingStopped();
+
+        //  Notifying all the registered ActionListeners
+        for (ActionListener listener : actionListeners) {
+            listener.actionPerformed(e);
+        }
+    }
+
     //
 //  Implement ActionListener interface
 //
     /*
      *	The button has been pressed. Stop editing and invoke the custom Action
      */
-    public void actionPerformed(ActionEvent e) {
-        int row = table.convertRowIndexToModel(table.getEditingRow());
-        fireEditingStopped();
 
-        //  Invoke the Action
-
-        ActionEvent event = new ActionEvent(
-                table,
-                ActionEvent.ACTION_PERFORMED,
-                "" + row);
-        action.actionPerformed(event);
-    }
 
     //
 //  Implement MouseListener interface
